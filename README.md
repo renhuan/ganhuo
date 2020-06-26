@@ -2,11 +2,11 @@
 
 - ### 一个方便、美观、好用的干货集中营App，先上图
 
-  - **项目gif图（如果看不到图？点击我）**    
+  - **项目gif图（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/ganhuo.gif)）**    
   
     ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/ganhuo.gif)
     
-  - **App二维码下载（如果看不到图？点击我）**    
+  - **App二维码下载（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/qr.png)）**    
   
     ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/qr.png)
 
