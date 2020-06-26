@@ -2,7 +2,7 @@
 
 - ### 一个方便、美观、好用的干货集中营App，先上图
 
-  - **项目gif图,图片有点大！稍等！（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/ganhuo.gif)）**    
+  - **项目gif图.gif有点大！稍等！（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/ganhuo.gif)）**    
   
     ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/ganhuo.gif)
     
