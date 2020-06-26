@@ -10,7 +10,7 @@
   
     ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/qr.png)
 
-- #### 关于几个问题
+- ### 关于几个问题
 
   - **为什么要写这个App？**
 
