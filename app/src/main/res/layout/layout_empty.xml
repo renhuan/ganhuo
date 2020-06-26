@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_backgroud"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingTop="200mm">
+
+    <ImageView
+        android:layout_width="50mm"
+        android:layout_height="50mm"
+        android:layout_marginRight="10mm"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50mm"
+        android:gravity="center_vertical"
+        android:text="暂无内容！试试搜一下呗"
+        android:textColor="@color/app_editText"
+        android:textSize="28mm" />
+
+</LinearLayout>

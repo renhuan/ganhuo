@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd')
+    return formattedDate
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.android.ganhuo"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 20200626
+        versionName "1.0.0"
+        multiDexEnabled true
+        // 仅支持 中文
+        resConfigs "zh"
+        ndk {
+            abiFilters 'armeabi'
+        }
+    }
+
+
+    buildTypes {
+        release {
+            zipAlignEnabled true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [package_name: "com.android.ganhuo"]
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [package_name: "com.android.ganhuo.debug"]
+        }
+
+    }
+
+    //apk命名
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "ganhuo_${variant.name}_${variant.versionName}_${buildTime()}" + ".apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation 'com.github.renhuan2015:rokhttp:2.2.3'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'com.github.zhpanvip:BannerViewPager:3.1.2'
+    implementation 'com.github.abdularis:parallaximageview:1.1'
+    implementation 'com.just.agentweb:agentweb:4.1.3'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'// (必选)
+    implementation 'com.github.AlexLiuSheng:CheckVersionLib:2.2.4'
+    /**
+     * 测试专用
+     */
+    implementation 'com.tencent.bugly:crashreport:3.2.2'
+    debugImplementation "com.simple:spiderman:1.1.5"
+    releaseImplementation "com.simple:spiderman-no-op:1.1.4"
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+}

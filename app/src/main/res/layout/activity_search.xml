@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_primary"
+    android:orientation="vertical"
+    tools:context=".activity.SearchActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?homeAsUpIndicator"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <EditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="请输入关键词搜索"
+            android:textColorHint="@color/app_editText"
+            android:textSize="28mm" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.renhuan.okhttplib.view.round_view.widget.GeneralRoundButton
+        android:id="@+id/btn_search"
+        android:layout_width="100mm"
+        android:layout_height="60mm"
+        android:layout_marginRight="@dimen/padding_20mm"
+        android:background="@color/purple"
+        android:gravity="center"
+        android:paddingLeft="@dimen/padding_20mm"
+        android:paddingRight="@dimen/padding_20mm"
+        android:text="确定"
+        app:corner_radius="30mm"
+        app:layout_constraintBottom_toBottomOf="@+id/toolBar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolBar" />
+
+    <me.jingbin.library.ByRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/app_backgroud"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_default="spread"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

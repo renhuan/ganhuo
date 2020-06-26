@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_20mm"
+        android:src="@drawable/ic_baseline_share_64"
+        app:backgroundTint="@color/purple" />
+
+    <com.example.myapplication.view.TextViewHappy
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_20mm"
+        android:text="--"
+        android:textSize="28mm" />
+
+    <com.example.myapplication.view.TextViewHappy
+        android:id="@+id/tv_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="@dimen/padding_20mm"
+        android:text="--"
+        android:textSize="28mm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_20mm"
+        android:paddingEnd="@dimen/padding_20mm"
+        android:paddingBottom="@dimen/padding_20mm">
+
+        <com.example.myapplication.view.TextViewHappy
+            android:id="@+id/tv_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-/-"
+            android:textSize="28mm" />
+
+        <com.example.myapplication.view.TextViewHappy
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="--"
+            android:textSize="28mm" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
