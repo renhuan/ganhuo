@@ -1,6 +1,6 @@
 # [干货集中营Android版](https://github.com/renhuan2015/ganhuo)
 
-## 好用记得star一下哦！
+- ### 好用记得star一下哦！
 
 - ### 一个方便、美观、好用的干货集中营App，先上图
 
