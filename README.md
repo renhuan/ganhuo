@@ -8,7 +8,7 @@
   
     ![](http://renhuan.aizhifou.cn/ganhuo.gif)
     
-  - **App二维码下载 **    
+  - **App二维码下载**    
   
     ![](http://renhuan.aizhifou.cn/qr.png)
 
