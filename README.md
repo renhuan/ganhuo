@@ -6,7 +6,7 @@
 
   - **项目gif图 - gif有点大！稍等！**    
   
-    ![](http://renhuan.aizhifou.cn/ganhuo.gif)
+     ![](http://renhuan.aizhifou.cn/ganhuo.gif)
     
   - **App二维码下载**    
   
