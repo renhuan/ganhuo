@@ -6,11 +6,11 @@
 
   - **项目gif图 - gif有点大！稍等！**    
   
-     ![github图片又访问不了](https://gitee.com/renhuan/resource/blob/master/art/ganhuo.gif)
+     ![github图片又访问不了](http://renhuan.aizhifou.cn/ganhuo.gif)
     
   - **App二维码下载**    
   
-    ![](http://renhuan.aizhifou.cn/qr.png)
+    ![github图片又访问不了](http://renhuan.aizhifou.cn/qr.png)
 
 - ### 关于几个问题
 
