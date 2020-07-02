@@ -4,13 +4,13 @@
 
 - ### 一个方便、美观、好用的干货集中营App，先上图
 
-  - **项目gif图 - gif有点大！稍等！（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/ganhuo.gif)）**    
+  - **项目gif图 - gif有点大！稍等！**    
   
-    ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/ganhuo.gif)
+    ![](http://renhuan.aizhifou.cn/ganhuo.gif)
     
-  - **App二维码下载（[如果看不到图？点我](https://gitee.com/renhuan/resource/blob/master/art/qr.png)）**    
+  - **App二维码下载 **    
   
-    ![](https://github.com/renhuan2015/ganhuo/blob/master/app/art/qr.png)
+    ![](http://renhuan.aizhifou.cn/qr.png)
 
 - ### 关于几个问题
 
