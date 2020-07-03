@@ -68,12 +68,14 @@ class WebActivity : BaseActivity() {
         return R.layout.activity_web
     }
 
-    override fun init(savedInstanceState: Bundle?) {
-        super.init(savedInstanceState)
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
         mAgentWeb = mAgentWebPre.go(url)
-
         setSupportActionBar(toolBar)
+    }
 
+    override fun initListener() {
+        super.initListener()
         toolBar.setNavigationOnClickListener {
             mAgentWeb?.let {
                 if (!it.back()) {
@@ -109,7 +111,6 @@ class WebActivity : BaseActivity() {
         toolBar.inflateMenu(R.menu.web_menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         return if (mAgentWeb?.handleKeyEvent(keyCode, event)!!) true else super.onKeyDown(keyCode, event)

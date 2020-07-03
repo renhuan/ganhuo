@@ -13,7 +13,6 @@ import com.android.ganhuo.R
 import com.android.ganhuo.base.BaseActivity
 import com.android.ganhuo.http.Api
 import com.blankj.utilcode.util.KeyboardUtils
-import com.example.myapplication.model.Data
 import com.example.myapplication.model.MeiziModel
 import com.renhuan.okhttplib.utils.Renhuan
 import com.renhuan.okhttplib.utils.checkEmpty
@@ -40,14 +39,14 @@ class SearchActivity : BaseActivity(), TextWatcher {
 
     private val mAdapter
             by lazy {
-                object : BaseRecyclerAdapter<Data>(R.layout.item_ganhuo, arrayListOf()) {
-                    override fun bindView(holder: BaseByViewHolder<Data>?, bean: Data?, position: Int) {
+                object : BaseRecyclerAdapter<MeiziModel>(R.layout.item_ganhuo, arrayListOf()) {
+                    override fun bindView(holder: BaseByViewHolder<MeiziModel>?, bean: MeiziModel?, position: Int) {
                         val iv = holder?.getView<ImageView>(R.id.iv)
-                        Renhuan.glide(iv!!, bean?.getmImage()!!)
+                        Renhuan.glide(iv!!, bean?.getImage_()!!)
                         holder.setText(R.id.tv_title, bean.title)
                         holder.setText(R.id.tv_des, bean.desc)
                         holder.setText(R.id.tv_author, "@author ${bean.author}")
-                        holder.setText(R.id.tv_time, bean.getmPublishedAt())
+                        holder.setText(R.id.tv_time, bean.getPublishedAt_())
                     }
                 }
             }
@@ -55,8 +54,9 @@ class SearchActivity : BaseActivity(), TextWatcher {
 
     private var pageCount = 1
 
-    override fun init(savedInstanceState: Bundle?) {
-        super.init(savedInstanceState)
+
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
         startAnimator()
         initRecyclerView()
         btn_search.setOnClickListener {
@@ -141,7 +141,21 @@ class SearchActivity : BaseActivity(), TextWatcher {
     private fun refresh(pageCount: Int) {
         et.checkEmpty("请输入关键词搜索") ?: return
         isRefreshable(true)
-        Api.getSearch(et.text(), pageCount, this)
+        rxScope {
+            Api.getSearch(et.text(), pageCount).apply {
+                if (pageCount == 1) {
+                    mAdapter.clear()
+                    recyclerView.isRefreshing = false
+                }
+                recyclerView.isStateViewEnabled = false
+                recyclerView.loadMoreComplete()
+                if (this.isEmpty()) {
+                    recyclerView.loadMoreEnd()
+                } else {
+                    mAdapter.addData(this)
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -160,26 +174,6 @@ class SearchActivity : BaseActivity(), TextWatcher {
                 refresh(++pageCount)
             }
             isRefreshable(false)
-        }
-    }
-
-    override fun <T> onSuccess(data: T) {
-        super.onSuccess(data)
-        if (data is MeiziModel) {
-            data.data.apply {
-                if (pageCount == 1) {
-                    mAdapter.clear()
-                    recyclerView.isRefreshing = false
-                }
-                recyclerView.isStateViewEnabled = false
-                recyclerView.loadMoreComplete()
-                if (this.isEmpty()) {
-                    recyclerView.loadMoreEnd()
-                } else {
-                    mAdapter.addData(this)
-                }
-
-            }
         }
     }
 

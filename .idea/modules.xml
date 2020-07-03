@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="cyhd/app" />
       <module fileurl="file://$PROJECT_DIR$/cyhd.iml" filepath="$PROJECT_DIR$/cyhd.iml" group="cyhd" />
-      <module fileurl="file://$PROJECT_DIR$/../RProjectLib/okhttplib/okhttplib.iml" filepath="$PROJECT_DIR$/../RProjectLib/okhttplib/okhttplib.iml" group="cyhd/okhttplib" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ganhuo.iml" filepath="$PROJECT_DIR$/.idea/modules/ganhuo.iml" group="ganhuo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ganhuo-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ganhuo-app.iml" group="ganhuo/app" />
+      <module fileurl="file://$PROJECT_DIR$/../RProjectLib/okhttplib/okhttplib.iml" filepath="$PROJECT_DIR$/../RProjectLib/okhttplib/okhttplib.iml" />
     </modules>
   </component>
 </project>

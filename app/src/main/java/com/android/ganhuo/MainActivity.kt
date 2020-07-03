@@ -14,15 +14,13 @@ import com.android.ganhuo.adapter.BannerAdapter
 import com.android.ganhuo.base.BaseActivity
 import com.android.ganhuo.http.Api
 import com.android.ganhuo.model.BannerModel
-import com.android.ganhuo.model.DataX
 import com.android.ganhuo.model.event.RefreshEvent
-import com.android.ganhuo.view.UpdateView
+import com.android.ganhuo.view.UpdateUtils
 import com.blankj.utilcode.util.BarUtils
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.renhuan.okhttplib.adapter.MyFragmentPagerAdapter
-import com.renhuan.okhttplib.eventbus.Event
-import com.renhuan.okhttplib.eventbus.EventBusUtil
+import com.renhuan.okhttplib.eventbus.REventBus
 import com.renhuan.okhttplib.utils.Renhuan
 import com.zhpan.bannerview.BannerViewPager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -38,7 +36,7 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
 
     private val mBannerView
             by lazy {
-                findViewById<BannerViewPager<DataX, BannerAdapter.NetViewHolder>>(R.id.bannerView)
+                findViewById<BannerViewPager<BannerModel, BannerAdapter.NetViewHolder>>(R.id.bannerView)
             }
 
     private val bigValueAnimator
@@ -85,11 +83,11 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
         return R.layout.activity_main
     }
 
-    override fun init(savedInstanceState: Bundle?) {
-        super.init(savedInstanceState)
 
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
         //检查更新
-        UpdateView.check()
+        UpdateUtils.check()
 
         //statusBar init
         BarUtils.setStatusBarColor(this, Renhuan.getColor(R.color.transparent))
@@ -157,9 +155,15 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
             }
             create()
         }
+    }
 
-        //request init
-        Api.getBanner(this)
+    override fun initRequest() {
+        super.initRequest()
+        rxScope(false) {
+            Api.getBanner().let {
+                mBannerView.refreshData(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -178,6 +182,12 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
         }
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        UpdateUtils.cancelScope()
+    }
+
     private fun smallAnimator(index: Int) {
         tab_type?.getTitleView(index)?.typeface = Typeface.DEFAULT
         smallValueAnimator?.apply {
@@ -188,13 +198,6 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
                 )
             }
             start()
-        }
-    }
-
-    override fun <T> onSuccess(data: T) {
-        super.onSuccess(data)
-        if (data is BannerModel) {
-            mBannerView.refreshData(data.data)
         }
     }
 
@@ -228,7 +231,7 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
     }
 
     override fun onTabSelect(position: Int) {
-        EventBusUtil.sendEvent(Event(RefreshEvent(if (position == 0) CATEGORY_GANHUO else CATEGORY_ARTICLE)))
+        REventBus.sendEvent(RefreshEvent(if (position == 0) CATEGORY_GANHUO else CATEGORY_ARTICLE))
     }
 
     override fun onTabReselect(position: Int) {

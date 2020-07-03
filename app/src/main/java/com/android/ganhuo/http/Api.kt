@@ -2,8 +2,11 @@ package com.android.ganhuo.http
 
 import com.android.ganhuo.model.BannerModel
 import com.example.myapplication.model.MeiziModel
-import com.lzy.okgo.cache.CacheMode
-import com.renhuan.okhttplib.http.RBaseOkHttpImp
+import rxhttp.toStr
+import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.param.RxHttp
+import rxhttp.wrapper.param.toResponseList
+
 
 /**
  * created by renhuan
@@ -16,44 +19,41 @@ object Api {
         return "https://gank.io/api/v2"
     }
 
-    fun getMeiziList(pageCount: Int = 1, baseCall: RBaseOkHttpImp) {
-        object : BaseOkHttp<MeiziModel>() {}
-            .setUrl("${getBaseUrl()}/data/category/Girl/type/Girl/page/${pageCount}/count/12")
-            .setCallBack(baseCall)
-            .isShowLoading(false)
-            .get()
+    suspend fun getMeiziList(pageCount: Int = 1): List<MeiziModel> {
+        return RxHttp.get("${getBaseUrl()}/data/category/Girl/type/Girl/page/${pageCount}/count/12")
+            .toResponseList<MeiziModel>()
+            .await()
     }
 
-    fun getGanHuoAndroidList(
+    suspend fun getUpDate(id: String, apiToken: String): String {
+        return RxHttp.get("http://api.bq04.com/apps/latest/${id}")
+            .add("api_token", apiToken)
+            .toStr()
+            .await()
+    }
+
+    suspend fun getGanHuoList(
         category: String,
         pageCount: Int = 1,
-        type: String,
-        baseCall: RBaseOkHttpImp
-    ) {
-        object : BaseOkHttp<MeiziModel>() {}
-            .setUrl("${getBaseUrl()}/data/category/${category}/type/${type}/page/${pageCount}/count/12")
-            .setCallBack(baseCall)
-            .isShowLoading(false)
-            .get()
+        type: String
+    ): List<MeiziModel> {
+        return RxHttp.get("${getBaseUrl()}/data/category/${category}/type/${type}/page/${pageCount}/count/12")
+            .toResponseList<MeiziModel>()
+            .await()
     }
 
-    fun getBanner(baseCall: RBaseOkHttpImp) {
-        object : BaseOkHttp<BannerModel>() {}
-            .setUrl("${getBaseUrl()}/banners")
-            .setCallBack(baseCall)
-            .setCache(CacheMode.FIRST_CACHE_THEN_REQUEST)
-            .isShowLoading(false)
-            .get()
+    suspend fun getBanner(): List<BannerModel> {
+        return RxHttp.get("${getBaseUrl()}/banners")
+            .toResponseList<BannerModel>()
+            .await()
     }
 
-    fun getSearch(
+    suspend fun getSearch(
         searchContent: String,
-        pageCount: Int = 1,
-        baseCall: RBaseOkHttpImp
-    ) {
-        object : BaseOkHttp<MeiziModel>() {}
-            .setUrl("${getBaseUrl()}/search/${searchContent}/category/All/type/All/page/${pageCount}/count/12")
-            .setCallBack(baseCall)
-            .get()
+        pageCount: Int = 1
+    ): List<MeiziModel> {
+        return RxHttp.get("${getBaseUrl()}/search/${searchContent}/category/All/type/All/page/${pageCount}/count/12")
+            .toResponseList<MeiziModel>()
+            .await()
     }
 }

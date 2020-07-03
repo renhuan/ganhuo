@@ -15,7 +15,7 @@
         android:src="@drawable/ic_baseline_share_64"
         app:backgroundTint="@color/purple" />
 
-    <com.example.myapplication.view.TextViewHappy
+    <com.android.ganhuo.view.TextViewHappy
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:text="--"
         android:textSize="28mm" />
 
-    <com.example.myapplication.view.TextViewHappy
+    <com.android.ganhuo.view.TextViewHappy
         android:id="@+id/tv_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,14 +40,14 @@
         android:paddingEnd="@dimen/padding_20mm"
         android:paddingBottom="@dimen/padding_20mm">
 
-        <com.example.myapplication.view.TextViewHappy
+        <com.android.ganhuo.view.TextViewHappy
             android:id="@+id/tv_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-/-"
             android:textSize="28mm" />
 
-        <com.example.myapplication.view.TextViewHappy
+        <com.android.ganhuo.view.TextViewHappy
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:corner_radius="@dimen/corner">
+    app:fl_corner_radius="@dimen/corner">
 
     <me.jingbin.library.ByRecyclerView
         android:id="@+id/recyclerView"

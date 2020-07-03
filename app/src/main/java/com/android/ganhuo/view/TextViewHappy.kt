@@ -1,4 +1,4 @@
-package com.example.myapplication.view
+package com.android.ganhuo.view
 
 import android.content.Context
 import android.graphics.Typeface

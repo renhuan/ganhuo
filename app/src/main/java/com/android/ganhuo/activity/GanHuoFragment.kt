@@ -8,9 +8,7 @@ import com.android.ganhuo.R
 import com.android.ganhuo.base.BaseFragment
 import com.android.ganhuo.http.Api
 import com.android.ganhuo.model.event.RefreshEvent
-import com.example.myapplication.model.Data
 import com.example.myapplication.model.MeiziModel
-import com.renhuan.okhttplib.eventbus.Event
 import com.renhuan.okhttplib.utils.Renhuan
 import com.wuyr.activitymessenger.get
 import kotlinx.android.synthetic.main.fragment_meizi.*
@@ -38,14 +36,14 @@ class GanHuoFragment : BaseFragment() {
 
     private val mAdapter
             by lazy {
-                object : BaseRecyclerAdapter<Data>(R.layout.item_ganhuo, arrayListOf()) {
-                    override fun bindView(holder: BaseByViewHolder<Data>?, bean: Data?, position: Int) {
+                object : BaseRecyclerAdapter<MeiziModel>(R.layout.item_ganhuo, arrayListOf()) {
+                    override fun bindView(holder: BaseByViewHolder<MeiziModel>?, bean: MeiziModel?, position: Int) {
                         val iv = holder?.getView<ImageView>(R.id.iv)
-                        Renhuan.glide(iv!!, bean?.getmImage()!!)
+                        Renhuan.glide(iv!!, bean?.getImage_()!!)
                         holder.setText(R.id.tv_title, bean.title)
                         holder.setText(R.id.tv_des, bean.desc)
                         holder.setText(R.id.tv_author, "@author ${bean.author}")
-                        holder.setText(R.id.tv_time, bean.getmPublishedAt())
+                        holder.setText(R.id.tv_time, bean.getPublishedAt_())
                     }
                 }
             }
@@ -54,8 +52,9 @@ class GanHuoFragment : BaseFragment() {
         return R.layout.fragment_ganhuo
     }
 
-    override fun init(view: View) {
-        super.init(view)
+
+    override fun initView(view: View) {
+        super.initView(view)
         recyclerView?.apply {
             adapter = mAdapter
             setHasFixedSize(true)
@@ -73,38 +72,27 @@ class GanHuoFragment : BaseFragment() {
     }
 
     private fun refresh(pageCount: Int) {
-        Api.getGanHuoAndroidList(category, pageCount, type!!, this@GanHuoFragment)
-    }
-
-
-//    override fun lazyLoad() {
-//        super.lazyLoad()
-//        println("-------------" + type + " lazyLoad")
-//        recyclerView.isRefreshing = true
-//    }
-
-    override fun onError() {
-        super.onError()
-        recyclerView.isRefreshing = false
-        recyclerView.loadMoreComplete()
-    }
-
-    override fun <T> onSuccess(data: T) {
-        super.onSuccess(data)
-        if (data is MeiziModel) {
-            data.data.apply {
-                if (pageCount == 1) {
-                    mAdapter.clear()
-                    recyclerView.isRefreshing = false
+        rxScope(
+            false,
+            action = {
+                Api.getGanHuoList(category, pageCount, type!!).apply {
+                    if (pageCount == 1) {
+                        mAdapter.clear()
+                        recyclerView.isRefreshing = false
+                    }
+                    recyclerView.loadMoreComplete()
+                    if (this.isEmpty()) {
+                        recyclerView.loadMoreEnd()
+                    } else {
+                        mAdapter.addData(this)
+                    }
                 }
+            },
+            onError = {
+                recyclerView.isRefreshing = false
                 recyclerView.loadMoreComplete()
-                if (this.isEmpty()) {
-                    recyclerView.loadMoreEnd()
-                } else {
-                    mAdapter.addData(this)
-                }
             }
-        }
+        )
     }
 
     override val isRegisterEventBus: Boolean
@@ -112,9 +100,9 @@ class GanHuoFragment : BaseFragment() {
 
     private var category = MainActivity.CATEGORY_GANHUO
 
-    override fun receiveEvent(event: Event<*>) {
+    override fun receiveEvent(event: Any) {
         super.receiveEvent(event)
-        event.data?.let {
+        event.let {
             if (it is RefreshEvent) {
                 category = it.category
                 recyclerView?.isRefreshing = true

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_primary"
-    app:corner_radius="@dimen/corner"
+    app:fl_corner_radius="@dimen/corner"
     tools:context=".activity.GanHuoFragment">
 
     <me.jingbin.library.ByRecyclerView

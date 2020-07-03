@@ -2,13 +2,14 @@ package com.android.ganhuo.view
 
 import com.allenliu.versionchecklib.v2.AllenVersionChecker
 import com.allenliu.versionchecklib.v2.builder.UIData
+import com.android.ganhuo.http.Api
 import com.android.ganhuo.model.UpdateModel
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.GsonUtils
-import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
-import com.lzy.okgo.model.Response
 import com.renhuan.okhttplib.utils.Renhuan
+import com.rxlife.coroutine.RxLifeScope
+import kotlinx.coroutines.Job
+import okhttp3.Response
 import java.lang.Exception
 
 /**
@@ -16,27 +17,23 @@ import java.lang.Exception
  * time : 2020/6/26 17:33
  * describe :
  */
-object UpdateView {
+object UpdateUtils {
     private val api_token = ""
     private val id = ""
-
+    private var job: Job? = null
     fun check() {
-        OkGo.get<String>("http://api.bq04.com/apps/latest/${id}")
-            .params("api_token", api_token)
-            .execute(object : StringCallback() {
-                override fun onSuccess(response: Response<String>?) {
-                    try {
-                        response?.body()?.let {
-                            val json = GsonUtils.fromJson(it, UpdateModel::class.java)
-
-                            if (AppUtils.getAppVersionCode() < json.version.toInt()) {
-                                attempUpdate(json)
-                            }
-                        }
-                    } catch (e: Exception) {
-                    }
+        job = RxLifeScope().launch {
+            Api.getUpDate(id, api_token).let {
+                val json = GsonUtils.fromJson(it, UpdateModel::class.java)
+                if (AppUtils.getAppVersionCode() < json.version.toInt()) {
+                    attempUpdate(json)
                 }
-            })
+            }
+        }
+    }
+
+    fun cancelScope() {
+        job?.cancel()
     }
 
     private fun attempUpdate(it: UpdateModel) {
