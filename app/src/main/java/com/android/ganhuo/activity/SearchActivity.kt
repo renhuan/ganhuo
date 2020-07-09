@@ -45,7 +45,7 @@ class SearchActivity : BaseActivity(), TextWatcher {
                         Renhuan.glide(iv!!, bean?.getImage_()!!)
                         holder.setText(R.id.tv_title, bean.title)
                         holder.setText(R.id.tv_des, bean.desc)
-                        holder.setText(R.id.tv_author, "@author ${bean.author}")
+                        holder.setText(R.id.tv_author, "@${bean.author}")
                         holder.setText(R.id.tv_time, bean.getPublishedAt_())
                     }
                 }
@@ -159,7 +159,6 @@ class SearchActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initRecyclerView() {
-
         recyclerView?.apply {
             adapter = mAdapter
             setStateView(R.layout.layout_empty)

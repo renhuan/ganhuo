@@ -24,6 +24,9 @@ import com.renhuan.okhttplib.eventbus.REventBus
 import com.renhuan.okhttplib.utils.Renhuan
 import com.zhpan.bannerview.BannerViewPager
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Cache
+import rxhttp.wrapper.cahce.CacheMode
+import kotlin.math.abs
 
 class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelectListener {
 
@@ -160,11 +163,15 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
     override fun initRequest() {
         super.initRequest()
         rxScope(false) {
+            Api.getBanner(CacheMode.ONLY_CACHE).let {
+                mBannerView.refreshData(it)
+            }
             Api.getBanner().let {
                 mBannerView.refreshData(it)
             }
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         toolBar.inflateMenu(R.menu.index_menu)
@@ -183,22 +190,21 @@ class MainActivity : BaseActivity(), ViewPager.OnPageChangeListener, OnTabSelect
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        UpdateUtils.cancelScope()
-    }
-
     private fun smallAnimator(index: Int) {
         tab_type?.getTitleView(index)?.typeface = Typeface.DEFAULT
         smallValueAnimator?.apply {
             addUpdateListener { animation ->
-                tab_type.getTitleView(index).setTextSize(
-                    TypedValue.COMPLEX_UNIT_MM,
-                    animation.animatedValue as Float
-                )
+                tab_type.getTitleView(index)
+                    .setTextSize(TypedValue.COMPLEX_UNIT_MM, animation.animatedValue as Float)
             }
             start()
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        UpdateUtils.cancelScope()
     }
 
     override fun onPageScrollStateChanged(state: Int) {

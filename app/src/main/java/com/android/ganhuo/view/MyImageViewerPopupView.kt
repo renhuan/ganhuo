@@ -1,10 +1,8 @@
 package com.android.ganhuo.view
 
-import android.animation.ValueAnimator
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.provider.MediaStore
 import android.widget.ImageView
 import com.android.ganhuo.R
@@ -41,33 +39,20 @@ class MyImageViewerPopupView(
 ) : ImageViewerPopupView(context) {
 
     private var mContext: Context? = null
-    private val valueAnimator by lazy { ValueAnimator.ofInt(100, 255) }
-    private var mPos = 0
+    private var mPositon = 0
 
     init {
-        mPos = pos
+        mPositon = pos
         mContext = context
-        setSrcView(imageView, mPos)
+        setSrcView(imageView, mPositon)
         setImageUrls(listUrl as List<Any>)
         setXPopupImageLoader(ImageLoader())
         isShowIndicator(false)
         isShowSaveButton(false)
         setSrcViewUpdateListener { _, position ->
-            mPos = position
+            mPositon = position
             setData(position)
-            setAnimator()
         }
-    }
-
-    private fun setAnimator() {
-        valueAnimator.removeAllUpdateListeners()
-        valueAnimator.apply {
-            addUpdateListener {
-                tv.setTextColor(Color.argb(it.animatedValue as Int, 255, 255, 255))
-                tv_author.setTextColor(Color.argb(it.animatedValue as Int, 255, 255, 255))
-                tv_time.setTextColor(Color.argb(it.animatedValue as Int, 255, 255, 255))
-            }
-        }.start()
     }
 
     override fun getImplLayoutId(): Int {
@@ -76,7 +61,7 @@ class MyImageViewerPopupView(
 
     override fun onCreate() {
         super.onCreate()
-        setData(mPos)
+        setData(mPositon)
         fab.setOnClickListener {
             showSharePopop()
         }
@@ -90,8 +75,8 @@ class MyImageViewerPopupView(
                 intArrayOf(R.drawable.ic_baseline_cloud_download_24, R.drawable.ic_baseline_share_24)
             ) { position, _ ->
                 when (position) {
-                    0 -> downloadImage(listUrl[mPos])
-                    1 -> downloadImage(listUrl[mPos], true)
+                    0 -> downloadImage(listUrl[mPositon])
+                    1 -> downloadImage(listUrl[mPositon], true)
                 }
             }
             .show()
@@ -100,7 +85,7 @@ class MyImageViewerPopupView(
     private val loading by lazy {
         XPopup.Builder(mContext)
             .dismissOnTouchOutside(false)
-            .asLoading("下载中...")
+            .asLoading("加载中...")
     }
 
 
@@ -154,7 +139,7 @@ class MyImageViewerPopupView(
 
     private fun setData(pos: Int) {
         tv.text = listData[pos].desc
-        tv_author.text = "@author ${listData[pos].author}"
+        tv_author.text = "@${listData[pos].author}"
         tv_time.text = listData[pos].getPublishedAt_()
         tv_page.text = "${pos + 1}/${listData.size}"
     }

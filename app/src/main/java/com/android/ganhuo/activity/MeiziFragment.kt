@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import com.android.ganhuo.R
 import com.android.ganhuo.base.BaseFragment
 import com.android.ganhuo.http.Api
@@ -17,6 +18,7 @@ import com.renhuan.okhttplib.utils.Renhuan
 import kotlinx.android.synthetic.main.fragment_meizi.*
 import me.jingbin.library.adapter.BaseByViewHolder
 import me.jingbin.library.adapter.BaseRecyclerAdapter
+import rxhttp.wrapper.cahce.CacheMode
 
 
 /**
@@ -64,6 +66,11 @@ class MeiziFragment : BaseFragment() {
         initRecycerView()
     }
 
+    override fun initRequest() {
+        super.initRequest()
+        refresh(1.apply { pageCount = this }, CacheMode.ONLY_CACHE)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -99,15 +106,16 @@ class MeiziFragment : BaseFragment() {
     }
 
 
-    private fun refresh(pageCount: Int) {
+    private fun refresh(pageCount: Int, cacheMode: CacheMode = CacheMode.NETWORK_SUCCESS_WRITE_CACHE) {
         rxScope(false,
             action = {
-                Api.getMeiziList(pageCount).apply {
+                Api.getMeiziList("Girl", pageCount, "Girl", cacheMode).apply {
                     if (pageCount == 1) {
                         listUrl.clear()
                         mAdapter.clear()
                         recyclerView.isRefreshing = false
                     }
+
                     recyclerView.loadMoreComplete()
                     if (this.isEmpty()) {
                         recyclerView.loadMoreEnd()
@@ -115,6 +123,8 @@ class MeiziFragment : BaseFragment() {
                         mAdapter.addData(this)
                         listUrl.addAll(map { it.getImage_() })
                     }
+
+
                 }
             },
             onError = {

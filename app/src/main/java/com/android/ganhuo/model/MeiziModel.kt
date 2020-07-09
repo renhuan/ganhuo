@@ -8,7 +8,7 @@ data class MeiziModel(
     val category: String,
     val createdAt: String,
     val desc: String,
-    val images: List<String>,
+    var images: List<String>,
     val likeCounts: Int,
     val publishedAt: String,
     val stars: Int,

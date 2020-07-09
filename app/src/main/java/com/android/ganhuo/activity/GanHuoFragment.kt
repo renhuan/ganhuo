@@ -14,6 +14,7 @@ import com.wuyr.activitymessenger.get
 import kotlinx.android.synthetic.main.fragment_meizi.*
 import me.jingbin.library.adapter.BaseByViewHolder
 import me.jingbin.library.adapter.BaseRecyclerAdapter
+import rxhttp.wrapper.cahce.CacheMode
 
 class GanHuoFragment : BaseFragment() {
 
@@ -42,7 +43,7 @@ class GanHuoFragment : BaseFragment() {
                         Renhuan.glide(iv!!, bean?.getImage_()!!)
                         holder.setText(R.id.tv_title, bean.title)
                         holder.setText(R.id.tv_des, bean.desc)
-                        holder.setText(R.id.tv_author, "@author ${bean.author}")
+                        holder.setText(R.id.tv_author, "@${bean.author}")
                         holder.setText(R.id.tv_time, bean.getPublishedAt_())
                     }
                 }
@@ -52,6 +53,10 @@ class GanHuoFragment : BaseFragment() {
         return R.layout.fragment_ganhuo
     }
 
+    override fun initRequest() {
+        super.initRequest()
+        refresh(1.apply { pageCount = this }, CacheMode.ONLY_CACHE)
+    }
 
     override fun initView(view: View) {
         super.initView(view)
@@ -71,11 +76,11 @@ class GanHuoFragment : BaseFragment() {
         }
     }
 
-    private fun refresh(pageCount: Int) {
+    private fun refresh(pageCount: Int, cacheMode: CacheMode = CacheMode.NETWORK_SUCCESS_WRITE_CACHE) {
         rxScope(
             false,
             action = {
-                Api.getGanHuoList(category, pageCount, type!!).apply {
+                Api.getMeiziList(category, pageCount, type!!, cacheMode).apply {
                     if (pageCount == 1) {
                         mAdapter.clear()
                         recyclerView.isRefreshing = false
