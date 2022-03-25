@@ -1,4 +1,4 @@
-# [干货集中营Android版](https://github.com/renhuan2015/ganhuo)
+# [干货集中营Android版（已废弃，官网跑路了）](https://github.com/renhuan2015/ganhuo)
 
 - ### 好用记得star一下哦！
 
